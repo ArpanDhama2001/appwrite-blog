@@ -1,11 +1,26 @@
-function App() {
-  console.log(import.meta.env.VITE_APPWRITE_URL);
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import authService from "./appwrite/auth.service";
+import { login, logout } from "./features/authSlice";
 
-  return (
-    <>
-      <h1>Blog</h1>
-    </>
-  );
+function App() {
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    authService
+      .getCurrentUser()
+      .then((userData) => {
+        if (userData) {
+          dispatch(login({ userData }));
+        } else {
+          dispatch(logout());
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  return !loading ? <div>Blog</div> : <div>Loading...</div>;
 }
 
 export default App;
