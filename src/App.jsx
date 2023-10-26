@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import authService from "./appwrite/auth.service";
 import { login, logout } from "./features/authSlice";
+import { Header } from "./components/index";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -20,7 +21,7 @@ function App() {
       .finally(() => setLoading(false));
   }, []);
 
-  return !loading ? <div>Blog</div> : <div>Loading...</div>;
+  return !loading ? <Header /> : <div>Loading...</div>;
 }
 
 export default App;
